@@ -42,8 +42,10 @@ def edit():
             
             if check_login(current_user.username, password):
                 edit_user(current_user.id, fullname)
+                response = redirect(url_for('auth.view_profile'))
+            else:
+                flash(e.__str__())
                 
-            response = redirect(url_for('auth.view_profile'))
         except Exception as e:
             flash(e)
             response = render_template('auth/edit.html', form=edit_form)
@@ -71,7 +73,6 @@ def login():
                 raise Exception("Incorrect Password")
         except Exception as e:
             flash(e.__str__())
-            print(e)
             return render_template('auth/login.html', form=login_form)
     return render_template('auth/login.html', form=login_form)
 
