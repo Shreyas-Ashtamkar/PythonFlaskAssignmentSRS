@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <h1>Register</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.fullname.label }}<br>{{ form.fullname(size=32) }}</p>
+        <p>{{ form.username.label }}<br>{{ form.username(size=32) }}</p>
+        <p>{{ form.password1.label }}<br>{{ form.password1(size=32) }}</p>
+        <p>{{ form.password2.label }}<br>{{ form.password2(size=32) }}</p>
+        <p><input type="submit" value="Register"></p>
+    </form>
+</body>
+
+</html>
