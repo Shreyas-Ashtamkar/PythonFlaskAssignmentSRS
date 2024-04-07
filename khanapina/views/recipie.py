@@ -20,12 +20,19 @@ def new_recipie():
         description = new_recipie_form.description.data
         ingredients = new_recipie_form.ingredients.data
         instructions = new_recipie_form.instructions.data
-        
-        if current_user:
-            if current_user.is_authenticated:
-                new_recipie = Recipie(title, description, ingredients, instructions, current_user.id)
-                db.session.add(new_recipie)
-                db.session.commit()
+        category = new_recipie_form.category.data
+        new_recipie = Recipie(
+            title, 
+            description, 
+            ingredients, 
+            instructions,
+            current_user.id,
+            category
+        )
+        db.session.add(new_recipie)
+        db.session.commit()
+        return redirect(url_for('recipie.view_recipie', id=new_recipie.id))
+    
     
     return response
 
@@ -48,7 +55,7 @@ def edit_recipie(id):
 
 @bp.route('/<int:id>/delete', methods=('GET', 'POST'))
 @login_required
-def edelete_recipie(id):
+def delete_recipie(id):
     recipie = Recipie.find_by_id(id)
     if request.method == 'POST':
         db.session.delete(recipie)
@@ -66,6 +73,7 @@ def view_recipie(id):
         'description'  : recipie.description,
         'ingredients'  : recipie.ingredients.replace('\n',' ').split(".")[:-1],
         'instructions' : recipie.instructions.replace('\n',' ').split(".")[:-1],
+        'category' : recipie.category,
         'user' : recipie_chef
     }
     

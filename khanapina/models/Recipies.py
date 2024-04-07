@@ -10,13 +10,15 @@ class Recipie(db.Model):
     description   = db.Column(db.String(1500))
     ingredients   = db.Column(db.String(1000))
     instructions  = db.Column(db.String(2000))
+    category      = db.Column(db.String(50))
     created_by    = db.Column(db.Integer, db.ForeignKey('Users.id'))
     
-    def __init__(self, title, description, ingredients, instructions, user):
+    def __init__(self, title, description, ingredients, instructions, user, category="Lunch"):
         self.title          = title
         self.description    = description
         self.ingredients    = ingredients
         self.instructions   = instructions
+        self.category       = category
         self.created_by     = user
     
     def __str__(self) -> str:
