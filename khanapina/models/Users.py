@@ -18,6 +18,9 @@ class User(UserMixin, db.Model):
         self.username = username
         self.password_hash = generate_password_hash(password)
     
+    def __str__(self) -> str:
+        return self.fullname
+    
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
