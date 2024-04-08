@@ -11,7 +11,7 @@ class Recipie(db.Model):
     ingredients   = db.Column(db.String(1000))
     instructions  = db.Column(db.String(2000))
     category      = db.Column(db.String(50))
-    created_by    = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    created_by    = db.Column(db.Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
     
     def __init__(self, title, description, ingredients, instructions, user, category="Lunch"):
         self.title          = title
