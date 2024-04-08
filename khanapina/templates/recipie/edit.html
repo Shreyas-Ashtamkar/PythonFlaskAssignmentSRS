@@ -19,6 +19,9 @@
     <main>
         <div class="container">
             <div class="row justify-content-center align-items-center g-2">
+                {% include "errors.html" %}
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
                 <form method="POST">
                     {{ form.hidden_tag() }}
                     <p>{{ form.title.label }}<br>{{ form.title(size=32) }}</p>

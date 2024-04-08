@@ -72,10 +72,10 @@ def view_recipie(id):
     recipie = {
         'title' : recipie.title,
         'description'  : recipie.description,
-        'ingredients'  : recipie.ingredients.replace('\n',' ').split(".")[:-1],
-        'instructions' : recipie.instructions.replace('\n',' ').split(".")[:-1],
+        'ingredients'  : recipie.ingredients.split(","),
+        'instructions' : list(filter(lambda x: len(x) > 2,recipie.instructions.split("."))),
         'category' : recipie.category,
-        'user' : recipie_chef
+        'created_by' : recipie_chef
     }
     
     return render_template('recipie/details.html', recipie = recipie)

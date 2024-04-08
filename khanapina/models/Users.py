@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     fullname = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    recipies = db.relationship('Recipie', backref='chef', lazy='dynamic')
+    recipies = db.relationship('Recipie', backref='chef', lazy='dynamic', cascade="all")
     
     def __init__(self, fullname, username, password) -> None:
         self.fullname = fullname

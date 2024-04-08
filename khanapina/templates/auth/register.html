@@ -1,22 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
+{% block main %}
+<div class="container">
+    <div class="row justify-content-center align-items-center g-2">
+        {% include "errors.html" %}
+    </div>
+    <div class="row justify-content-center align-items-center g-2 mt-5">
+        <div class="sixteen columns">
+            <div class="submit-recipie-form">
+                <h1>Register</h1>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.fullname.label }}
+                        {{ form.fullname(size=32, id="fullname", class="form-control") }}
+                        <!-- Displaying validation error message -->
+                        {% for error in form.fullname.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="clearfix"></div>
 
-<body>
-    <h1>Register</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>{{ form.fullname.label }}<br>{{ form.fullname(size=32) }}</p>
-        <p>{{ form.username.label }}<br>{{ form.username(size=32) }}</p>
-        <p>{{ form.password1.label }}<br>{{ form.password1(size=32) }}</p>
-        <p>{{ form.password2.label }}<br>{{ form.password2(size=32) }}</p>
-        <p><input type="submit" value="Register"></p>
-    </form>
-</body>
+                    <div class="form-group">
+                        {{ form.username.label }}
+                        {{ form.username(size=32, id="username", class="form-control") }}
+                        <!-- Displaying validation error message -->
+                        {% for error in form.username.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="clearfix"></div>
 
-</html>
+                    <div class="form-group">
+                        {{ form.password1.label }}
+                        {{ form.password1(size=32, id="password1", class="form-control") }}
+                        <!-- Displaying validation error message -->
+                        {% for error in form.password1.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        {{ form.password2.label }}
+                        {{ form.password2(size=32, id="password2", class="form-control") }}
+                        <!-- Displaying validation error message -->
+                        {% for error in form.password2.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="margin-top-15"></div>
+                    <div class="form-group">
+                        <input class="form-submit btn btn-success btn-lg" type="submit" value="Register">
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="margin-bottom-35"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

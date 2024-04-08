@@ -44,10 +44,10 @@ def edit():
                 edit_user(current_user.id, fullname)
                 response = redirect(url_for('auth.view_profile'))
             else:
-                flash(e.__str__())
+                flash("Password Incorrect", "error")
                 
         except Exception as e:
-            flash(e)
+            flash(e.__str__())
             response = render_template('auth/edit.html', form=edit_form)
   
     return response
@@ -96,11 +96,11 @@ def delete():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('home.home_page'))
 
 
 
 @bp.route('/profile', methods=('GET',))
 @login_required
 def view_profile():
-    return render_template('auth/profile.html', user=current_user)
+    return render_template('auth/profile.html', user=current_user, recipies=current_user.recipies.all())

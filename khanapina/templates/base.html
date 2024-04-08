@@ -1,3 +1,11 @@
+{% set navigation_bar = [
+    ('/', 'index', 'Index'),
+    ('/downloads/', 'downloads', 'Downloads'),
+    ('/about/', 'about', 'About')
+] %}
+
+{% set active_page = active_page|default('index') -%}
+
 <!DOCTYPE html>
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -54,40 +62,21 @@
                 <div class="thirteen columns navigation">
                     <nav id="navigation" class="menu nav-collapse">
                         <ul>
-                            <li><a href="index-2.html">Home</a></li>
-
-                            <li><a href="#" id="current">Demos</a>
-                                <ul>
-                                    <li><a href="index-2.html">Grid Homepage</a></li>
-                                    <li><a href="index-3.html">List Homepage</a></li>
-                                    <li><a href="index-4.html">Boxed Version</a></li>
-                                </ul>
-                            </li>
-
+                            <li><a href="{{url_for('home.home_page')}}">Home</a></li>
                             <li><a href="#">Recipes</a>
                                 <ul>
-                                    <li><a href="browse-recipes.html">Browse Recipes</a></li>
-                                    <li><a href="recipe-page-1.html">Recipe Page #1</a></li>
-                                    <li><a href="recipe-page-2.html">Recipe Page #2</a></li>
-                                </ul>
-                            </li>
-
-                            <li><a href="#">Pages</a>
-                                <ul>
-                                    <li><a href="shortcodes.html">Shortcodes</a></li>
-                                    <li><a href="typography.html">Typography</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </li>
-
-                            <li><a href="#">Shop</a>
-                                <ul>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="product-page.html">Product Page</a></li>
+                                    <li><a href="{{url_for('home.home_page')}}">Browse Recipes</a></li>
+                                    <li><a href="{{url_for('home.home_page')}}">My Recipies</a></li>
                                 </ul>
                             </li>
                             {% if current_user.is_authenticated %}
-                                <li><a href="{{ url_for('recipie.new_recipie') }}">Submit Recipe</a></li>
+                                <li><a href="{{ url_for('recipie.new_recipie') }}">New Recipe</a></li>
+                                <li><a href="#"><i class="fas fa-user-circle fa-sm fa-fw"></i> {{current_user.username}}</a>
+                                    <ul>
+                                        <li><a href="{{ url_for('auth.view_profile') }}"><i class="fas fa-user fa-sm fa-fw"></i> Profile</a></li>
+                                        <li><a href="{{ url_for('auth.logout') }}"><i class="fas fa-power-off fa-sm fa-fw"></i> Logout</a></li>
+                                    </ul>
+                                </li>
                             {% else %}
                                 <li><a href="{{ url_for('auth.login') }}"> <i class="fas fa-user fa-xs fa-fw"></i> Login</a></li>
                             {% endif %}

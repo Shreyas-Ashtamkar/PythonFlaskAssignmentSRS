@@ -1,65 +1,114 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>Recipie Details</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+{% extends "base.html" %}
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-    </head>
-
-    <body>
-        <header>
-            <!-- place navbar here -->
-        </header>
-        <main>
-            <h2>{{recipie.title}}</h2>
-            <hr>
-            <h4>Description</h4>
-            {{recipie.description}}
-            <hr>
-            <h4>Ingredients</h4>
-            <ul>
-                {% for ingredient in recipie.ingredients %}
-                    <li>{{ingredient}}</li>
-                {% endfor %}
-            </ul>
-            <hr>
-            <h4>Instructions</h4>
-            <ol>
-                {% for instruction in recipie.instructions %}
-                <li>{{instruction}}</li>
-                {% endfor %}
-            </ol>
-            <hr>
-            <h4>Category</h4>
-                {{recipie.category}}
-            <hr>
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
-
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
-</html>
+{% block main %}
+    
+    <!-- Recipe Background -->
+    <div class="recipeBackground">
+        {% set randomImgNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] | random %}
+        <img src="{{ url_for('static', filename='images/recipeThumb-0'+randomImgNumber+'.jpg') }}" alt="" />
+    </div>
+    <!-- Content
+            ================================================== -->
+    <div class="container" itemscope itemtype="http://schema.org/Recipe">
+    
+        <!-- Recipe -->
+        <div class="twelve columns">
+            <div class="alignment">
+    
+                <!-- Header -->
+                <section class="recipe-header">
+                    <div class="title-alignment">
+                        <h2>{{recipie.title}}</h2>
+                        <div class="rating four-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    </div>
+                </section>
+    
+    
+                <!-- Slider -->
+                <div class="recipeSlider rsDefault">
+                    <img itemprop="image" class="rsImg" src="{{ url_for('static', filename='images/recipeThumb-0'+randomImgNumber+'.jpg') }}" alt="" />
+                </div>
+    
+    
+                <!-- Details -->
+                <section class="recipe-details" itemprop="nutrition">
+                    <ul>
+                        <li>Category: <strong itemprop="recipieCategory">{{recipie.category}}</strong></li>
+                        <li>Ingredients: <strong itemprop="recipieCategory">{{recipie.ingredients|length}} items</strong></li>
+                        <li>Steps: <strong itemprop="recipieCategory">{{recipie.instructions|length}} steps</strong></li>
+                    </ul>
+                    <a href="#" class="print"><i class="fa fa-print"></i> Print</a>
+                    <div class="clearfix"></div>
+                </section>
+    
+    
+                <!-- Text -->
+                <p itemprop="description">{{recipie.description}}</p>
+    
+                <div class="recipe-container">
+    
+                    <div class="ingredients-container">
+    
+                        <!-- Ingredients -->
+                        <h3>Ingredients</h3>
+                        <ul class="ingredients">
+                            {% for ingredient in recipie.ingredients %}
+                                <li>
+                                    <input id="check-{{loop.index}}" type="checkbox" name="check" value="check-{{loop.index}}">
+                                    <label itemprop="ingredients" for="check-{{loop.index}}">{{ingredient}}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+    
+                    </div>
+    
+                    <div class="directions-container">
+                        <!-- Directions -->
+                        <h3>Directions</h3>
+                        <ol class="directions" itemprop="recipeInstructions">
+                            {% for step in recipie.instructions %}
+                            <li>{{step}}.</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+    
+                </div>
+                <div class="clearfix"></div>    
+            </div>
+        </div>
+    
+    
+        <!-- Sidebar
+    ================================================== -->
+        <div class="four columns">
+    
+            <!-- Search Form -->
+            <div class="widget search-form">
+                <nav class="search">
+                    <form action="#" method="get">
+                        <button><i class="fa fa-search"></i></button>
+                        <input class="search-field" type="text" placeholder="Search for recipes" value="" />
+                    </form>
+                </nav>
+                <div class="clearfix"></div>
+            </div>
+    
+    
+            <!-- Author Box -->
+            <div class="widget">
+                <div class="author-box">
+                    <span class="title">Author Chef</span>
+                    <span class="name">{{recipie.created_by}}</span>
+                    {# <span class="contact"><a href="mailto:sandra@chow.com">sandra@chow.com</a></span> #}
+                    {# <img src="images/author-photo.png" alt="">
+                    <p>I'm Sandra and this is where I share my stuff. I am madly in love with food. You will find a
+                        balance of healthy recipes, comfort food and indulgent desserts.</p> #}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container / End -->
+{% endblock main %}

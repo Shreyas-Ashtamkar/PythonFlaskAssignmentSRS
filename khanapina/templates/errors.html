@@ -1,0 +1,12 @@
+{% block errors %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="notification {{category}} closeable">
+                <p><span>{{ message }}</span></p>
+                <a class="close" href="#"></a>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endblock errors %}
