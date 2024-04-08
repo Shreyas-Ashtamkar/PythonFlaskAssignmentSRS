@@ -7,4 +7,4 @@ class CreateRecipie(FlaskForm):
     description  = TextAreaField('Recipie Description', validators=[DataRequired(), Length(min=2)])
     ingredients  = TextAreaField('Recipie Ingredients', validators=[DataRequired(), Length(min=4)])
     instructions = TextAreaField('Recipie Instructions', validators=[DataRequired(), Length(min=4)])
-    category = StringField('Recipie Category')
+    category = StringField('Recipie Category', default="Lunch")

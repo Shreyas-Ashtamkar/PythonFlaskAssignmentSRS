@@ -47,6 +47,7 @@ def edit_recipie(id):
         recipie.description = edit_recipie_form.description.data
         recipie.ingredients = edit_recipie_form.ingredients.data
         recipie.instructions = edit_recipie_form.instructions.data
+        recipie.category = edit_recipie_form.category.data
         
         db.session.add(recipie)
         db.session.commit()

@@ -35,3 +35,11 @@ class Recipie(db.Model):
     @staticmethod
     def get_all(page=1, per_page=10):
         return Recipie.query.paginate(page=page, per_page=per_page, error_out=False)
+    
+    @staticmethod
+    def get_categories():
+        return Recipie.query.distinct(Recipie.category).all()
+    
+    @staticmethod
+    def get_category_count(category=None):
+        return Recipie.query.filter_by(category=category).count()
