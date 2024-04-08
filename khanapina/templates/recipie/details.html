@@ -40,7 +40,13 @@
                         <li>Ingredients: <strong itemprop="recipieCategory">{{recipie.ingredients|length}} items</strong></li>
                         <li>Steps: <strong itemprop="recipieCategory">{{recipie.instructions|length}} steps</strong></li>
                     </ul>
-                    <a href="#" class="print"><i class="fa fa-print"></i> Print</a>
+
+                    {% if current_user.is_authenticated and recipie.created_by == current_user%}
+                        <a href="{{url_for('recipie.edit_recipie', id=recipie.id)}}" class="print btn"><i class="fa fa-pen"></i> Edit</a>
+                    {% else %}
+                        <a href="#" class="print"><i class="fa fa-print"></i> Print</a>
+                    {% endif %}
+                    &nbsp;
                     <div class="clearfix"></div>
                 </section>
     
@@ -70,13 +76,13 @@
                         <h3>Directions</h3>
                         <ol class="directions" itemprop="recipeInstructions">
                             {% for step in recipie.instructions %}
-                            <li>{{step}}.</li>
+                            <li>{{step}}</li>
                             {% endfor %}
                         </ol>
                     </div>
     
                 </div>
-                <div class="clearfix"></div>    
+                <div class="clearfix"></div>
             </div>
         </div>
     

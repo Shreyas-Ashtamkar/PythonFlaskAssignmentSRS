@@ -12,7 +12,11 @@
 
 		function addIng() {
 			var newElem = $('tr.ingredients-cont.ing:first').clone();
-			newElem.find('input').val('');
+			var newInputElem = newElem.find('input');
+			
+			newInputElem.val('');
+			newInputElem[0].name = 'ingredients-' + $("fieldset#ingredients").find('tr').length;
+
 			newElem.appendTo('table#ingredients-sort');
 		}
 

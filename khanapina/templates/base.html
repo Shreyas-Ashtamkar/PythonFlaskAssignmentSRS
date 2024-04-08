@@ -197,6 +197,9 @@
     <script src="{{ url_for('static', filename='scripts/jquery.tooltips.min.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/jquery.pricefilter.js') }}"></script>
+    {% block more_scripts %}
+    
+    {% endblock more_scripts %}
     <script src="{{ url_for('static', filename='scripts/custom.js') }}"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
 </body>

@@ -11,7 +11,7 @@ def configure_app(app, test_config):
         SECRET_KEY = 'dev',
         SQLALCHEMY_DATABASE_URI = f'sqlite:///{INSTANCE_PATH}/khanapina_db.sqlite3',
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
-        SEND_FILE_MAX_AGE_DEFAULT = 60
+        SEND_FILE_MAX_AGE_DEFAULT = 360
     )
     
     if test_config:

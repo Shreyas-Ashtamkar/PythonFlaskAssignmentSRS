@@ -3,6 +3,7 @@ from ..models.Recipies import Recipie
 from ..models.Users import User
 
 from ..utils import dbutils
+import json
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
@@ -18,9 +19,9 @@ def home_page():
         all_recipies.append({
             'id' : recipie.id,
             'title' : recipie.title.split('-')[0],
-            'description'  : recipie.description[:300] + '...',
-            'ingredients_count'  : len(recipie.ingredients.split(",")),
-            'instructions_count'  : len(list(filter(lambda x: len(x) > 2,recipie.instructions.split(".")))),
+            'description'  : recipie.description[:250] + '...',
+            'ingredients_count'  : len(json.loads(recipie.ingredients)),
+            'instructions_count'  : len(json.loads(recipie.instructions)),
             'category' : recipie.category,
             'created_by' : User.find_user(recipie.created_by)
         })
