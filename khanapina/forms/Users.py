@@ -15,5 +15,5 @@ class LoginForm(FlaskForm):
 
 
 class EditForm(FlaskForm):
-    fullname = StringField('Username', validators=[DataRequired(), Length(min=2, max=100)])
+    fullname = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=100)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=32)])
