@@ -29,7 +29,7 @@
             
                         <div class="rsSlideTitle details">
                             <ul>
-                                <li><i class="fa fa-user"></i> by <a href="#">{{recipie.created_by}}</a></li>
+                                <li><i class="fa fa-user"></i> by <a href="{{url_for('home.browse_recipies')}}?username={{recipie.created_by.username}}">{{recipie.created_by}}</a></li>
                             </ul>
                         </div>
             
@@ -77,11 +77,12 @@
 
                             <p>{{recipie.description}}</p>
 
-                            <div class="meta-alignment">
-                                <div class="recipe-meta"><i class="fa fa-user"></i> by <a href="#">{{recipie.created_by}}</a></div>
-                                <div class="recipe-meta"><i class="fa fa-clipboard-list"></i> {{recipie.instructions_count}} steps</div>
-                                <div class="recipe-meta"><i class="fa fa-check-circle"></i> {{recipie.ingredients_count}} items</div>
-                            </div>
+                            <div class="recipe-meta"><i class="fa fa-user"></i> by <a href="{{url_for('home.browse_recipies')}}?username={{recipie.created_by.username}}">{{recipie.created_by}}</a></div>
+                            
+                            <div class="meta-alignment"></div>
+                            
+                            <div class="recipe-meta"><i class="fa fa-clipboard-list"></i> {{recipie.instructions_count}} steps</div>
+                            <div class="recipe-meta"><i class="fa fa-check-circle"></i> {{recipie.ingredients_count}} items</div>
 
                             <div class="clearfix"></div>
                         </div>
@@ -131,19 +132,16 @@
                 </nav>
             </div>
         </div>
-    
-    
         <!-- Sidebar 
                     ================================================== 
                 -->
         <div class="four columns">
-    
             <!-- Search Form -->
             <div class="widget search-form">
                 <nav class="search">
-                    <form action="#" method="get">
+                    <form action="{{url_for('home.browse_recipies')}}" method="get">
                         <button><i class="fa fa-search"></i></button>
-                        <input class="search-field" type="text" placeholder="Search for recipes" value="" />
+                        <input class="search-field" type="text" placeholder="Search for recipes" value="" name="title"/>
                     </form>
                 </nav>
                 <div class="clearfix"></div>

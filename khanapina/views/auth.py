@@ -22,7 +22,7 @@ def register():
                 
             response = redirect(url_for('auth.login'))
         except Exception as e:
-            flash(e)
+            flash(e.__str__())
             response = render_template('auth/register.html', form=register_form)
 
     return response
@@ -68,7 +68,10 @@ def login():
             user = check_login(username, password)
             if user:
                 login_user(user)
-                return redirect(url_for('home.home_page'))
+                if request.args.get('next'):
+                    return redirect(request.args.get('next'))
+                else:
+                    return redirect(url_for('home.home_page'))
             else:
                 raise Exception("Incorrect Password")
         except Exception as e:

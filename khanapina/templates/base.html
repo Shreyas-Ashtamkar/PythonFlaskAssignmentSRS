@@ -1,11 +1,3 @@
-{% set navigation_bar = [
-    ('/', 'index', 'Index'),
-    ('/downloads/', 'downloads', 'Downloads'),
-    ('/about/', 'about', 'About')
-] %}
-
-{% set active_page = active_page|default('index') -%}
-
 <!DOCTYPE html>
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -50,8 +42,10 @@
             <div class="container">
                 <!-- Logo / Mobile Menu -->
                 <div class="three columns">
-                    <div id="logo">
-                        <h1><a href="index-2.html"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="KhanaPina" /></a></h1>
+                    <div id="logo" style="margin-top: 12px; margin-bottom: 10px;">
+                        <h1>
+                            <a href="{{url_for('home.home_page')}}"><img src="{{ url_for('static', filename='images/khanapina-logo.png') }}" alt="KhanaPina" style="height: 50px;"/></a>
+                        </h1>
                     </div>
                 </div>
 
@@ -109,14 +103,17 @@
         <!-- Container -->
         <div class="container">
 
-            <div class="ten columns">
+            <div class="four columns">
+                <img src="{{url_for('static', filename='images/khanapina-logo-white.png')}}" style="width: 100%;" alt="KhanaPina">
+            </div>
+            
+            <div class="six columns">
                 <!-- Headline -->
                 <h3 class="headline footer">About</h3>
                 <span class="line"></span>
                 <div class="clearfix"></div>
                 <p>Indulge in a global array of recipes from passionate contributors worldwide. From aromatic Indian tea blends to mouthwatering dishes spanning cuisines, our platform invites culinary exploration.</p>
             </div>
-            <div class="one columns"> &nbsp; </div>
 
             <div class="five columns">
 

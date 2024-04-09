@@ -35,7 +35,6 @@ def new_recipie():
         db.session.commit()
         return redirect(url_for('recipie.view_recipie', id=new_recipie.id))
     else:
-        print(new_recipie_form.errors)
         flash(new_recipie_form.errors)
     
     
