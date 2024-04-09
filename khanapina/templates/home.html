@@ -65,7 +65,7 @@
                         {% set randomImgNumber = ['1', '2', '3', '4', '5'] | random %}
                         <div class="thumbnail-holder">
                             <a href="{{ url_for('recipie.view_recipie', id=recipie.id) }}">
-                                <img src="{{ url_for('static', filename='images/recipeThumb-0'+randomImgNumber+'b.jpg') }}" alt="" />
+                                <img src="{{ url_for('static', filename='images/recipeThumb-0'+randomImgNumber+'b.jpg') }}" alt="" style="width: 100%; height:max-content; overflow: hidden;"/>
                                 <div class="hover-cover"></div>
                                 <div class="hover-icon">View Recipe</div>
                             </a>
@@ -73,7 +73,7 @@
 
                         <!-- Content -->
                         <div class="recipe-box-content">
-                            <h3><a href="recipe-page-1.html">{{recipie.title}}</a></h3>
+                            <h3><a href="{{ url_for('recipie.view_recipie', id=recipie.id) }}">{{recipie.title}}</a></h3>
 
                             <p>{{recipie.description}}</p>
 
@@ -97,16 +97,36 @@
             <div class="pagination-container masonry">
                 <nav class="pagination">
                     <ul>
-                        <li><a href="#" class="current-page">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
+                        {% for page_num in pagination.iter_pages() %}
+                            {% if page_num %}
+                                {% if page_num != pagination.page %}
+                                    <li><a href="/?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% else %}
+                                    <li><a class="current-page ">{{ page_num }}</a></li>
+                                    {% endif %}
+                                {% else %}
+                                <li class="disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                        {% endfor %}
                     </ul>
                 </nav>
     
                 <nav class="pagination-next-prev">
                     <ul>
-                        <li><a href="#" class="prev"></a></li>
-                        <li><a href="#" class="next"></a></li>
+                        <li>
+                            {% if pagination.has_prev %}
+                                <a href="/?page={{ pagination.prev_num }}" class="prev"></a>
+                            {% else %}
+                                <a class="prev disabled" aria-disabled="true"></a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% if pagination.has_next %}
+                                <a href="/?page={{ pagination.next_num }}" class="next"></a>
+                            {% else %}
+                                <a class="next disabled" aria-disabled="true"></a>
+                            {% endif %}
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -142,14 +162,6 @@
                     {% else %}
                         No categories found
                     {% endfor %}
-                    {# <li><a href="#">Lunch <span>(2)</span></a></li>
-                    <li><a href="#">Breakfast <span>(2)</span></a></li>
-                    <li><a href="#">Soups <span>(2)</span></a></li>
-                    <li><a href="#">Salads <span>(2)</span></a></li>
-                    <li><a href="#">Beef <span>(2)</span></a></li>
-                    <li><a href="#">Seafood <span>(2)</span></a></li>
-                    <li><a href="#">Vegetarian <span>(2)</span></a></li>
-                    <li><a href="#">Vegetables <span>(2)</span></a></li> #}
                 </ul>
             </div>
         </div>
@@ -158,3 +170,12 @@
     
     <div class="margin-top-5"></div>
 {% endblock main %}
+
+{% block more_scripts %}
+<style>
+    a.prev.disabled, a.next.disabled{
+        color: #999;
+        pointer-events: none;
+    }
+</style>
+{% endblock more_scripts %}

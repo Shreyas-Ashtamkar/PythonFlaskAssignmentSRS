@@ -1,4 +1,5 @@
 from ..utils import dbutils
+from sqlalchemy import desc
 
 db = dbutils.get_db()
 
@@ -34,7 +35,7 @@ class Recipie(db.Model):
     
     @staticmethod
     def get_all(page=1, per_page=10):
-        return Recipie.query.paginate(page=page, per_page=per_page, error_out=False)
+        return Recipie.query.order_by(desc(Recipie.id)).paginate(page=page, per_page=per_page, error_out=False)
     
     @staticmethod
     def get_categories():

@@ -65,8 +65,8 @@
                             <li><a href="{{url_for('home.home_page')}}">Home</a></li>
                             <li><a href="#">Recipes</a>
                                 <ul>
-                                    <li><a href="{{url_for('home.home_page')}}">Browse Recipes</a></li>
-                                    <li><a href="{{url_for('home.home_page')}}">My Recipies</a></li>
+                                    <li><a href="{{url_for('home.browse_recipies')}}">Browse Recipes</a></li>
+                                    <li><a href="{{url_for('home.browse_recipies')}}?created_by=sashtmkr">My Recipies</a></li>
                                 </ul>
                             </li>
                             {% if current_user.is_authenticated %}

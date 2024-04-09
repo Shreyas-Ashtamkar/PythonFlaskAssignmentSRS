@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block main %}
+<section id="titlebar" class="browse-all">
+    <!-- Container -->
+    <div class="container">
+        <div class="eight columns">
+            <h2>Browse Recipes</h2>
+        </div>
+    </div>
+    <!-- Container / End -->
+</section>
+
+<div class="advanced-search-container">
+    <div class="container">
+        <div class="sixteen columns">
+            <div id="advanced-search">                
+                <!-- Choose Category -->
+                <div class="select">
+                    <label>Choose category</label>
+                    <select data-placeholder="Choose Category" class="chosen-select-no-single">
+                        <option value="1">All</option>
+                        <option value="2">Breakfast</option>
+                        <option value="3">Lunch</option>
+                        <option value="4">Beverages</option>
+                        <option value="5">Appetizers</option>
+                        <option value="6">Soups</option>
+                        <option value="7">Salads</option>
+                        <option value="8">Beef</option>
+                        <option value="9">Poultry</option>
+                        <option value="10">Pork</option>
+                        <option value="11">Seafood</option>
+                        <option value="12">Vegetarian</option>
+                        <option value="13">Vegetables</option>
+                        <option value="14">Desserts</option>
+                        <option value="15">Canning / Freezing</option>
+                        <option value="16">Breads</option>
+                        <option value="17">Holidays</option>
+                    </select>
+                </div>
+
+                <!-- Choose ingredients -->
+                <div class="select included-ingredients">
+                    <label>Type in one or more comma seperated ingredients</label>
+                    <input class="search-field" type="text" placeholder="Enter key ingredients" value="" style="width: 96%" />
+                </div>
+
+                <!-- Choose -->
+                <div class="select">
+                    <label>Select by chef</label>
+                    <input class="search-field" type="text" placeholder="Enter chef name" value="" style="width: 90%" />
+                </div>
+
+                <div class="clearfix"></div>
+
+                <!-- Search Input -->
+                <nav class="search-by-keyword">
+                    <form action="#" method="get">
+                        <button><span>Search for Recipes</span></button>
+                        <input class="search-field" type="text" placeholder="Search by keyword" value="" />
+                    </form>
+                </nav>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="margin-top-35"></div>
+</div>
+<!-- Container -->
+<div class="container">
+
+    <!-- Headline -->
+    <div class="sixteen columns">
+        <h3 class="headline">All Recipes</h3>
+        <span class="line margin-bottom-35"></span>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <!-- Isotope -->
+    <div class="isotope">
+        {% for recipie in recipies %}
+            {% set randomImgNumber = ['1', '2', '3', '4', '5'] | random %}
+
+            <!-- Recipe #1 -->
+            <div class="four isotope-box columns">
+            
+                <!-- Thumbnail -->
+                <div class="thumbnail-holder">
+                    <a href="{{ url_for('recipie.view_recipie', id=recipie.id) }}">
+                        <img src="{{ url_for('static', filename='images/recipeThumb-0'+randomImgNumber+'b.jpg') }}" alt="" />
+                        <div class="hover-cover"></div>
+                        <div class="hover-icon">View Recipe</div>
+                    </a>
+                </div>
+            
+                <!-- Content -->
+                <div class="recipe-box-content">
+                    <h3><a href="{{ url_for('recipie.view_recipie', id=recipie.id) }}">{{recipie.title}}</a></h3>
+                    <div class="recipe-meta"><i class="fa fa-clipboard-list"></i></i> {{recipie.ingredients_count}}</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        {% else %}
+        
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="sixteen columns">
+        <div class="pagination-container">
+            <nav class="pagination">
+                <ul>
+                    <li><a href="#" class="current-page">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                </ul>
+            </nav>
+
+            <nav class="pagination-next-prev">
+                <ul>
+                    <li><a href="#" class="prev"></a></li>
+                    <li><a href="#" class="next"></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
+{% endblock main %}
