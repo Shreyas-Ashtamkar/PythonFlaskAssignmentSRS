@@ -14,53 +14,46 @@
 <div class="advanced-search-container">
     <div class="container">
         <div class="sixteen columns">
-            <div id="advanced-search">                
-                <!-- Choose Category -->
-                <div class="select">
-                    <label>Choose category</label>
-                    <select data-placeholder="Choose Category" class="chosen-select-no-single">
-                        <option value="1">All</option>
-                        <option value="2">Breakfast</option>
-                        <option value="3">Lunch</option>
-                        <option value="4">Beverages</option>
-                        <option value="5">Appetizers</option>
-                        <option value="6">Soups</option>
-                        <option value="7">Salads</option>
-                        <option value="8">Beef</option>
-                        <option value="9">Poultry</option>
-                        <option value="10">Pork</option>
-                        <option value="11">Seafood</option>
-                        <option value="12">Vegetarian</option>
-                        <option value="13">Vegetables</option>
-                        <option value="14">Desserts</option>
-                        <option value="15">Canning / Freezing</option>
-                        <option value="16">Breads</option>
-                        <option value="17">Holidays</option>
-                    </select>
-                </div>
+            <div id="advanced-search">
+                <form method="GET">
+                    <!-- Choose Category -->
+                    <div class="select">
+                        <label>Choose category</label>
+                        <select data-placeholder="Choose Category" class="chosen-select-no-single" name="category">
+                            <option selected value>ALL</option>
+                            {% for category in all_categories %}
+                                {% if category == requested_filters.category %}
+                                    <option value="{{category}}" selected>{{category}}</option>
+                                {% else %}
+                                    <option value="{{category}}">{{category}}</option>
+                                {% endif %}
+                            {% else %}
+                                <option value="">All</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                <!-- Choose ingredients -->
-                <div class="select included-ingredients">
-                    <label>Type in one or more comma seperated ingredients</label>
-                    <input class="search-field" type="text" placeholder="Enter key ingredients" value="" style="width: 96%" />
-                </div>
+                    <!-- Choose ingredients -->
+                    <div class="select included-ingredients">
+                        <label>Type in one or more comma seperated ingredients</label>
+                        <input class="search-field" type="text" placeholder="Enter key ingredients" value="{{requested_filters.ingredients}}" style="width: 96%" name="ingredients" />
+                    </div>
 
-                <!-- Choose -->
-                <div class="select">
-                    <label>Select by chef</label>
-                    <input class="search-field" type="text" placeholder="Enter chef name" value="" style="width: 90%" />
-                </div>
+                    <!-- Choose -->
+                    <div class="select">
+                        <label>Select by chef</label>
+                        <input class="search-field" type="text" placeholder="Enter chef name" value="{{requested_filters.created_by}}" style="width: 90%" name="created_by" />
+                    </div>
 
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
 
-                <!-- Search Input -->
-                <nav class="search-by-keyword">
-                    <form action="#" method="get">
-                        <button><span>Search for Recipes</span></button>
-                        <input class="search-field" type="text" placeholder="Search by keyword" value="" />
-                    </form>
-                </nav>
-                <div class="clearfix"></div>
+                    <!-- Search Input -->
+                    <nav class="search-by-keyword">
+                            <button><span>Search for Recipes</span></button>
+                            <input class="search-field" type="text" placeholder="Search by keyword" value="{{requested_filters.title}}" name="title"/>
+                    </nav>
+                    <div class="clearfix"></div>
+                </form>
             </div>
         </div>
     </div>
@@ -99,7 +92,9 @@
                 <!-- Content -->
                 <div class="recipe-box-content">
                     <h3><a href="{{ url_for('recipie.view_recipie', id=recipie.id) }}">{{recipie.title}}</a></h3>
-                    <div class="recipe-meta"><i class="fa fa-clipboard-list"></i></i> {{recipie.ingredients_count}}</div>
+                    <div class="recipe-meta"><i class="fa fa-check-circle"></i> {{recipie.ingredients_count}}</div>
+                    <div class="recipe-meta"><i class="fa fa-clipboard-list"></i> {{recipie.instructions_count}}</div>
+                    <div class="recipe-meta"><i class="fa fa-bookmark"></i> {{recipie.category}}</div>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -109,24 +104,41 @@
     </div>
 
     <!-- Pagination -->
-    <div class="sixteen columns">
-        <div class="pagination-container">
-            <nav class="pagination">
-                <ul>
-                    <li><a href="#" class="current-page">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                </ul>
-            </nav>
-
-            <nav class="pagination-next-prev">
-                <ul>
-                    <li><a href="#" class="prev"></a></li>
-                    <li><a href="#" class="next"></a></li>
-                </ul>
-            </nav>
-        </div>
+    <div class="pagination-container masonry">
+        <nav class="pagination">
+            <ul>
+                {% for page_num in pagination.iter_pages() %}
+                {% if page_num %}
+                {% if page_num != pagination.page %}
+                <li><a href="{{url_for('home.browse_recipies')}}?{{current_query}}&page={{ page_num }}">{{ page_num }}</a></li>
+                {% else %}
+                <li><a class="current-page ">{{ page_num }}</a></li>
+                {% endif %}
+                {% else %}
+                <li class="disabled"><span class="page-link">...</span></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    
+        <nav class="pagination-next-prev">
+            <ul>
+                <li>
+                    {% if pagination.has_prev %}
+                    <a href="{{url_for('home.browse_recipies')}}?{{current_query}}&page={{ pagination.prev_num }}" class="prev"></a>
+                    {% else %}
+                    <a class="prev disabled" aria-disabled="true"></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if pagination.has_next %}
+                    <a href="{{url_for('home.browse_recipies')}}?{{current_query}}&page={{ pagination.next_num }}" class="next"></a>
+                    {% else %}
+                    <a class="next disabled" aria-disabled="true"></a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
     </div>
-
 </div>
 {% endblock main %}

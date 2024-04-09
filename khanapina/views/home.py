@@ -34,8 +34,11 @@ def home_page():
 @bp.route('/search')
 def browse_recipies():
     page_no  = request.args.get('page') or 1
-    per_page = request.args.get('per_page') or 10
+    per_page = request.args.get('per_page') or 8
     requested_filters = request.args.to_dict()
+    if request.args.get('page'):
+        del requested_filters['page']
+    request_query = ""
     category = None
     users = None
     title = None
@@ -60,22 +63,25 @@ def browse_recipies():
         ingredients = [ingredient.strip(',') for ingredient in all_ingredients.strip(',').split(',')]
         ingredients = [Recipie.ingredients.contains(ingredient) for ingredient in ingredients]
     
-    requested_filters = []
+    for q in requested_filters:
+        request_query += f"&{q}={requested_filters[q]}"
+
+    processed_filters = []
     
     if users:
         users = [Recipie.created_by == user.id for user in users]
-        requested_filters.append(or_(*users))
+        processed_filters.append(or_(*users))
     
     if title:
-        requested_filters.append(or_(*title))
+        processed_filters.append(or_(*title))
         
     if ingredients:
-        requested_filters.append(or_(*ingredients))
+        processed_filters.append(or_(*ingredients))
         
     if category:
-        requested_filters.append(or_(*category))
+        processed_filters.append(or_(*category))
     
-    results = Recipie.query.filter(*requested_filters).paginate(page=int(page_no), per_page=int(per_page))
+    results = Recipie.query.filter(*processed_filters).paginate(page=int(page_no), per_page=int(per_page))
     
     recipie_list = []
     for recipie in results.items:
@@ -88,5 +94,5 @@ def browse_recipies():
             'category' : recipie.category,
             'created_by' : User.find_user(recipie.created_by)
         })
-
-    return render_template('search.html', recipies=recipie_list)
+    
+    return render_template('search.html', recipies=recipie_list, pagination=results, all_categories=Recipie.get_categories(), current_query=f"{request_query}", requested_filters=requested_filters)

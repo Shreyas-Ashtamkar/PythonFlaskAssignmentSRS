@@ -39,7 +39,7 @@ class Recipie(db.Model):
     
     @staticmethod
     def get_categories():
-        return Recipie.query.distinct(Recipie.category).all()
+        return [category[0] for category in db.session.query(Recipie.category).distinct().all()]
     
     @staticmethod
     def get_category_count(category=None):

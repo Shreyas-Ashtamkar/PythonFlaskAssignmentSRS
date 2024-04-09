@@ -158,7 +158,7 @@
     
                 <ul class="categories">
                     {% for category in category_list %}
-                        <li><a href="#">{{category.name}} <span>({{category.count}})</span></a></li>
+                        <li><a href="{{url_for('home.browse_recipies')}}?category={{category.name}}">{{category.name}} <span>({{category.count}})</span></a></li>
                     {% else %}
                         No categories found
                     {% endfor %}
