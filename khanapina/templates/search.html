@@ -15,7 +15,7 @@
     <div class="container">
         <div class="sixteen columns">
             <div id="advanced-search">
-                <form method="GET">
+                <form method="GET" id="searchForm">
                     <!-- Choose Category -->
                     <div class="select">
                         <label>Choose category</label>
@@ -57,9 +57,9 @@
             </div>
         </div>
     </div>
-
-    <div class="margin-top-35"></div>
 </div>
+
+<div class="margin-top-35"></div>
 <!-- Container -->
 <div class="container">
 
@@ -142,3 +142,24 @@
     </div>
 </div>
 {% endblock main %}
+
+{% block more_scripts %}
+<script>
+document.getElementById('searchForm').onsubmit = function(e) {
+    var form = e.target;
+    var inputs = form.getElementsByTagName('input');
+    for (var i = inputs.length-1; i >= 0 ; i--) {
+        if (inputs[i].value.trim() === '') {
+            inputs[i].remove();
+        }
+    }
+
+    inputs = form.getElementsByTagName('select');
+    for (var i = inputs.length-1; i >= 0 ; i--) {
+        if (inputs[i].value.trim() === '') {
+            inputs[i].remove();
+        }
+    }
+};
+</script>
+{% endblock more_scripts %}

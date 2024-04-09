@@ -63,12 +63,17 @@
                     <nav id="navigation" class="menu nav-collapse">
                         <ul>
                             <li><a href="{{url_for('home.home_page')}}">Home</a></li>
+                            {% if current_user.is_authenticated %}
                             <li><a href="#">Recipes</a>
                                 <ul>
                                     <li><a href="{{url_for('home.browse_recipies')}}">Browse Recipes</a></li>
-                                    <li><a href="{{url_for('home.browse_recipies')}}?created_by=sashtmkr">My Recipies</a></li>
+                                        <li><a href="{{url_for('home.browse_recipies')}}?username={{current_user.username}}">My Recipies</a></li>
                                 </ul>
                             </li>
+                            {% else %}
+                                <li><a href="{{url_for('home.browse_recipies')}}">Browse Recipes</a>
+                            {% endif %}
+                            
                             {% if current_user.is_authenticated %}
                                 <li><a href="{{ url_for('recipie.new_recipie') }}">New Recipe</a></li>
                                 <li><a href="#"><i class="fas fa-user-circle fa-sm fa-fw"></i> {{current_user.username}}</a>
@@ -104,33 +109,16 @@
         <!-- Container -->
         <div class="container">
 
-            <div class="five columns">
+            <div class="ten columns">
                 <!-- Headline -->
                 <h3 class="headline footer">About</h3>
                 <span class="line"></span>
                 <div class="clearfix"></div>
-                <p>Cras at ultrices erat, sed vulputate eros. Nunc at augue gravida est fermentum vulputate.
-                    Pellentesque et ipsum in dui malesuada tempus.</p>
+                <p>Indulge in a global array of recipes from passionate contributors worldwide. From aromatic Indian tea blends to mouthwatering dishes spanning cuisines, our platform invites culinary exploration.</p>
             </div>
+            <div class="one columns"> &nbsp; </div>
 
-            <div class="three columns">
-
-                <!-- Headline -->
-                <h3 class="headline footer">Archives</h3>
-                <span class="line"></span>
-                <div class="clearfix"></div>
-
-                <ul class="footer-links">
-                    <li><a href="#">June 2014</a></li>
-                    <li><a href="#">July 2014</a></li>
-                    <li><a href="#">August 2014</a></li>
-                    <li><a href="#">September 2014</a></li>
-                    <li><a href="#">November 2014</a></li>
-                </ul>
-
-            </div>
-
-            <div class="three columns">
+            <div class="five columns">
 
                 <!-- Headline -->
                 <h3 class="headline footer">Recipes</h3>
@@ -138,28 +126,11 @@
                 <div class="clearfix"></div>
 
                 <ul class="footer-links">
-                    <li><a href="browse-recipes.html">Browse Recipes</a></li>
-                    <li><a href="recipe-page-1.html">Recipe Page</a></li>
-                    <li><a href="submit-recipe.html">Submit Recipe</a></li>
+                    <li><a href="{{url_for('home.browse_recipies')}}">Browse Recipes</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Become a member</a></li>
+                    <li><a href="{{ url_for('recipie.new_recipie') }}">Submit Recipe</a></li>
                 </ul>
-
             </div>
-
-            <div class="five columns">
-
-                <!-- Headline -->
-                <h3 class="headline footer">Newsletter</h3>
-                <span class="line"></span>
-                <div class="clearfix"></div>
-                <p>Sign up to receive email updates on new product announcements, gift ideas, sales and more.</p>
-
-                <form action="#" method="get">
-                    <input class="newsletter" type="text" placeholder="mail@example.com" value="" />
-                    <button class="newsletter-btn" type="submit">Subscribe</button>
-
-                </form>
-            </div>
-
         </div>
         <!-- Container / End -->
 
@@ -172,7 +143,7 @@
         <!-- Container -->
         <div class="container">
 
-            <div class="eight columns">© Copyright 2014 by <a href="#">KhanaPina</a>. All Rights Reserved.</div>
+            <div class="eight columns">© Copyright 2024 by <a href="#">KhanaPina</a>. All Rights Reserved.</div>
 
         </div>
         <!-- Container / End -->

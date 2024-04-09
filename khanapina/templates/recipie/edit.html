@@ -1,50 +1,102 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <title>Edit Recipie</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+{% block main %}
+<section id="titlebar">
+    <div class="container">
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-</head>
-
-<body>
-    <header>
-        <!-- place navbar here -->
-    </header>
-    <main>
-        <div class="container">
-            <div class="row justify-content-center align-items-center g-2">
-                {% include "errors.html" %}
-            </div>
-            <div class="row justify-content-center align-items-center g-2">
-                <form method="POST">
-                    {{ form.hidden_tag() }}
-                    <p>{{ form.title.label }}<br>{{ form.title(size=32) }}</p>
-                    <p>{{ form.description.label }}<br>{{ form.description(size=32) }}</p>
-                    <p>{{ form.ingredients.label }}<br>{{ form.ingredients(size=32) }}</p>
-                    <p>{{ form.instructions.label }}<br>{{ form.instructions(size=32) }}</p>
-                    <p>{{ form.category.label }}<br>{{ form.category(size=32) }}</p>
-                    <p><input type="submit" value="Edit"></p>
-                </form>
-            </div>
+        <div class="eight columns">
+            <h2>Edit Recipe</h2>
         </div>
-    </main>
-    <footer>
-        <!-- place footer here -->
-    </footer>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+        <div class="eight columns">
+            <nav id="breadcrumbs">
+                <ul>
+                    <li>You are here:</li>
+                    <li><a href="{{url_for('home.home_page')}}">Home</a></li>
+                    <li><a href="{{url_for('home.browse_recipies')}}">Recipes</a></li>
+                    <li>Edit Recipe</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
-</body>
+{% include "errors.html" %}
 
-</html>
+<div class="container">
+    <div class="sixteen columns">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="submit-recipe-form">
+                <h4>Recipe Title</h4>
+                <nav class="title">
+                    {{ form.title(size=32, class="search-field") }}
+                </nav>
+
+                <div class="clearfix"></div>
+                <div class="margin-top-25"></div>
+
+                <h4>Choose Category</h4>
+                {{ form.category(size=32, class="search-field", value="Breakfast") }}
+
+                <div class="clearfix"></div>
+                <div class="margin-top-25"></div>
+
+                <h4>Short Description</h4>
+                {{ form.description(size=32) }}
+
+                <div class="clearfix"></div>
+                <div class="margin-top-25"></div>
+
+                <fieldset class="addrecipe-cont" name="ingredients" id="ingredients">
+                    <h4>Ingredients:</h4>
+                    <table id="ingredients-sort">
+                        {% for field in form.ingredients %}
+                        <tr class="ingredients-cont ing">
+                            <td class="icon" style="text-align: end;">
+                                <i class="fas fa-arrows-alt fa-lg fa-fw"></i>
+                            </td>
+                            <td>
+                                {{ field(tabindex="0", placeholder="Name of ingredient") }}
+                            </td>
+                            <td class="action"><a title="Delete" class="delete" href="#"><i
+                                        class="fa fa-trash fa-lg"></i></a> </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <a href="#" class="button color add_ingredient">Add new ingredient</a>
+                </fieldset>
+
+                <div class="clearfix"></div>
+                <div class="margin-top-25"></div>
+
+                <!-- Ingredients -->
+                <h4>Instructions:</h4>
+                {{ form.instructions(size=32) }}
+
+                <div class="clearfix"></div>
+                <div class="margin-top-25"></div>
+
+                <div><input type="submit" value="Confirm Edit"></div>
+                <div class="margin-bottom-10"></div>
+                <div><a id="prev-button">Cancel</a></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="margin-top-50"></div>
+
+{% endblock main %}
+
+{% block more_scripts %}
+    <script src="{{ url_for('static', filename='scripts/jquery-ui.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/jquery.sceditor.bbcode.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/jquery.sceditor.js') }}" defer></script>
+    <script>
+        if(document.referrer != '')
+            $("#prev-button")[0].setAttribute('href', document.referrer);
+        else
+            $("#prev-button")[0].hidden = true;
+    </script>
+{% endblock more_scripts %}

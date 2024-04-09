@@ -6,6 +6,8 @@ from . import dbutils
 
 db = dbutils.get_db()
 login_manager_ = LoginManager()
+login_manager_.login_view = 'auth.login'
+login_manager_.login_message_category = "warning"
 
 def init_login_manager(app):
     login_manager_.init_app(app)

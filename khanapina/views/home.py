@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash
 from ..models.Recipies import Recipie
 from ..models.Users import User
 
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from ..utils import dbutils
 import json
 
@@ -40,7 +40,7 @@ def browse_recipies():
         del requested_filters['page']
     request_query = ""
     category = None
-    users = None
+    users = []
     title = None
     ingredients = None
     results = None
@@ -68,7 +68,7 @@ def browse_recipies():
 
     processed_filters = []
     
-    if users:
+    if len(users)>0 :
         users = [Recipie.created_by == user.id for user in users]
         processed_filters.append(or_(*users))
     
@@ -76,7 +76,7 @@ def browse_recipies():
         processed_filters.append(or_(*title))
         
     if ingredients:
-        processed_filters.append(or_(*ingredients))
+        processed_filters.append(and_(*ingredients))
         
     if category:
         processed_filters.append(or_(*category))
